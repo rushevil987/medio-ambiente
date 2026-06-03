@@ -8,7 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,200;14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -19,8 +19,8 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #050a08;
-            color: #e8e8e8;
+            background: #030705;
+            color: #ececec;
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
             min-height: 100vh;
@@ -28,19 +28,56 @@
             position: relative;
         }
 
-        /* === FONDO PRINCIPAL === */
-        .bg-primary {
+        /* === FONDO PRINCIPAL MULTICAPA === */
+        .bg-deep {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -5;
+            background: radial-gradient(ellipse at 40% 50%, #0a1a0e, #020504);
+        }
+
+        /* === NOISE TEXTURE === */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -4;
+            opacity: 0.05;
+            pointer-events: none;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3"/></filter><rect width="100%" height="100%" filter="url(%23noise)"/></svg>');
+        }
+
+        /* === CÍRCULOS DE FONDO ANIMADOS === */
+        .bg-circles {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -3;
-            background: radial-gradient(ellipse at 30% 40%, #0a1f0f, #020504);
+            overflow: hidden;
         }
 
-        /* === FONDO DE ESTRELLAS/BRILLOS === */
-        .stars {
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(76,175,80,0.05), transparent);
+            animation: bgCircleDrift 25s ease-in-out infinite;
+        }
+
+        @keyframes bgCircleDrift {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            33% { transform: translate(5%, -5%) scale(1.1); opacity: 0.5; }
+            66% { transform: translate(-3%, 8%) scale(0.95); opacity: 0.4; }
+        }
+
+        /* === AURORA BOREAL CSS === */
+        .aurora {
             position: fixed;
             top: 0;
             left: 0;
@@ -48,57 +85,25 @@
             height: 100%;
             z-index: -2;
             pointer-events: none;
+            overflow: hidden;
         }
 
-        .star {
+        .aurora-layer {
             position: absolute;
-            background: white;
-            border-radius: 50%;
-            opacity: 0;
-            animation: twinkle 3s ease-in-out infinite;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(135deg, rgba(46,125,80,0.08), rgba(76,175,80,0.04), rgba(100,200,100,0.02));
+            filter: blur(60px);
+            animation: auroraWave 18s ease-in-out infinite;
         }
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0; transform: scale(0.5); }
-            50% { opacity: 0.8; transform: scale(1); }
+        @keyframes auroraWave {
+            0%, 100% { transform: translate(-10%, -10%) rotate(0deg); opacity: 0.4; }
+            50% { transform: translate(5%, 5%) rotate(2deg); opacity: 0.7; }
         }
 
-        /* === ONDAS DE FONDO (CSS PURO) === */
-        .waves {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 200px;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .wave {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(76,175,80,0.05)" d="M0,192L48,197.3C96,203,192,213,288,208C384,203,480,181,576,176C672,171,768,181,864,197.3C960,213,1056,235,1152,229.3C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') repeat-x;
-            background-size: cover;
-            animation: waveMove 20s linear infinite;
-            opacity: 0.4;
-        }
-
-        .wave2 {
-            animation: waveMove 15s linear infinite reverse;
-            opacity: 0.2;
-            bottom: -20px;
-        }
-
-        @keyframes waveMove {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100px); }
-        }
-
-        /* === PARTÍCULAS FLOTANTES AVANZADAS === */
-        .particle-system {
+        /* === SISTEMA DE PARTÍCULAS AVANZADO === */
+        .particle-field {
             position: fixed;
             top: 0;
             left: 0;
@@ -106,37 +111,11 @@
             height: 100%;
             z-index: -1;
             pointer-events: none;
-            overflow: hidden;
-        }
-
-        .floating-particle {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            filter: blur(2px);
-            animation: float-particle-slow linear infinite;
-        }
-
-        @keyframes float-particle-slow {
-            0% {
-                transform: translateY(100vh) translateX(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.7;
-            }
-            90% {
-                opacity: 0.7;
-            }
-            100% {
-                transform: translateY(-20vh) translateX(30px) rotate(360deg);
-                opacity: 0;
-            }
         }
 
         /* === CONTENEDOR PRINCIPAL === */
         .container {
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 2rem 2rem;
             min-height: 100vh;
@@ -144,339 +123,363 @@
             flex-direction: column;
             justify-content: center;
             position: relative;
-            z-index: 10;
+            z-index: 20;
         }
 
         /* === GRID === */
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 5rem;
+            gap: 6rem;
             align-items: center;
         }
 
-        /* === TEXTO MINIMALISTA PERO CON DETALLE === */
-        .tag {
+        /* === TEXTO ULTRAMINIMALISTA === */
+        .supertag {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            background: rgba(76, 175, 80, 0.08);
-            backdrop-filter: blur(8px);
-            padding: 0.4rem 1rem;
+            gap: 0.6rem;
+            background: rgba(76, 175, 80, 0.05);
+            backdrop-filter: blur(12px);
+            padding: 0.35rem 1.2rem;
             border-radius: 100px;
             margin-bottom: 2rem;
-            border: 0.5px solid rgba(76, 175, 80, 0.2);
-            font-size: 0.7rem;
-            letter-spacing: 2px;
+            border: 0.5px solid rgba(76, 175, 80, 0.25);
+            font-size: 0.65rem;
+            letter-spacing: 3px;
             font-weight: 400;
             text-transform: uppercase;
-            color: rgba(150, 230, 120, 0.9);
+            color: rgba(160, 230, 140, 0.9);
         }
 
-        .tag-pulse {
-            width: 6px;
-            height: 6px;
-            background: #6ccf6a;
+        .pulse-ring {
+            width: 5px;
+            height: 5px;
+            background: #7ed56f;
             border-radius: 50%;
-            animation: pulse-green 1.5s infinite;
+            animation: pulseRing 1.8s infinite;
+            box-shadow: 0 0 0 0 rgba(126, 213, 111, 0.5);
         }
 
-        @keyframes pulse-green {
-            0%, 100% { opacity: 0.3; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 8px #6ccf6a; }
+        @keyframes pulseRing {
+            0% { box-shadow: 0 0 0 0 rgba(126, 213, 111, 0.6); }
+            70% { box-shadow: 0 0 0 8px rgba(126, 213, 111, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(126, 213, 111, 0); }
         }
 
         h1 {
-            font-size: clamp(2.2rem, 5vw, 3.8rem);
-            font-weight: 350;
+            font-size: clamp(2rem, 4.5vw, 3.5rem);
+            font-weight: 320;
             letter-spacing: -0.02em;
-            line-height: 1.15;
-            margin-bottom: 1.5rem;
-            color: #f0f0f0;
+            line-height: 1.2;
+            margin-bottom: 1.2rem;
+            color: #f5f5f5;
         }
 
-        .gradient-word {
-            background: linear-gradient(135deg, #a5e0a0, #4caf50, #2e7d32);
+        .glow-text {
+            background: linear-gradient(120deg, #b8f2a0, #5ecf4a, #2e7d32);
             background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            font-weight: 500;
-            animation: gradient-shift 4s ease infinite;
+            font-weight: 450;
+            animation: textGlow 3s ease infinite;
+            position: relative;
+            display: inline-block;
         }
 
-        @keyframes gradient-shift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        @keyframes textGlow {
+            0%, 100% { background-position: 0% 50%; filter: drop-shadow(0 0 2px rgba(94,207,74,0.3)); }
+            50% { background-position: 100% 50%; filter: drop-shadow(0 0 8px rgba(94,207,74,0.5)); }
         }
 
-        .description {
-            font-size: 0.9rem;
-            color: rgba(210, 210, 210, 0.7);
-            margin-bottom: 2rem;
-            line-height: 1.7;
+        .description-premium {
+            font-size: 0.88rem;
+            color: rgba(210, 210, 210, 0.65);
+            margin-bottom: 1.8rem;
+            line-height: 1.75;
             font-weight: 300;
-            max-width: 90%;
+            max-width: 85%;
         }
 
-        .stats-row {
+        .metric-grid {
             display: flex;
-            gap: 2.5rem;
+            gap: 2rem;
             margin: 1.5rem 0;
         }
 
-        .stat {
+        .metric {
             text-align: left;
         }
 
-        .stat-value {
-            font-size: 1.6rem;
+        .metric-num {
+            font-size: 1.8rem;
             font-weight: 500;
-            color: #8fdf8d;
+            color: #a8e6a0;
             letter-spacing: -0.02em;
         }
 
-        .stat-label {
-            font-size: 0.65rem;
+        .metric-label {
+            font-size: 0.6rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: rgba(200,200,200,0.5);
+            color: rgba(180, 180, 180, 0.5);
         }
 
-        .action-list {
+        .pill-list {
             list-style: none;
             margin: 1.5rem 0;
         }
 
-        .action-list li {
+        .pill-list li {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.7rem;
-            font-size: 0.85rem;
+            gap: 0.7rem;
+            margin-bottom: 0.65rem;
+            font-size: 0.82rem;
             font-weight: 300;
-            color: rgba(220,220,220,0.8);
+            color: rgba(220, 220, 220, 0.8);
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            padding: 0.2rem 0;
         }
 
-        .action-list li:hover {
-            color: #a5e0a0;
-            transform: translateX(5px);
+        .pill-list li:hover {
+            color: #b8f2a0;
+            transform: translateX(6px);
         }
 
-        .action-marker {
-            width: 20px;
-            height: 20px;
+        .pill-marker {
+            width: 18px;
+            height: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.7rem;
-            color: #6ccf6a;
+            font-size: 0.65rem;
+            color: #7ed56f;
             transition: all 0.2s;
         }
 
-        .author-line {
+        .signature {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.8rem;
             margin-top: 1.5rem;
             padding-top: 1rem;
-            border-top: 1px solid rgba(108,207,106,0.15);
+            border-top: 1px solid rgba(126, 213, 111, 0.15);
             font-size: 0.7rem;
             letter-spacing: 1px;
-            color: rgba(200,200,200,0.5);
+            color: rgba(180, 180, 180, 0.5);
         }
 
-        .author-line strong {
+        .signature strong {
             color: #8fdf8d;
             font-weight: 400;
-            background: rgba(108,207,106,0.08);
-            padding: 0.2rem 0.7rem;
+            background: rgba(126, 213, 111, 0.08);
+            padding: 0.15rem 0.6rem;
             border-radius: 20px;
         }
 
-        /* === IMAGEN PROTAGONISTA - MÁXIMO DESTAQUE === */
-        .hero-image {
+        /* === IMAGEN: PROTAGONISTA ABSOLUTA === */
+        .image-master {
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
+            perspective: 1200px;
         }
 
-        /* Capas de brillo */
-        .glow-layer {
+        /* Capa de brillo principal */
+        .radiant-glow {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            max-width: 520px;
-            max-height: 520px;
-            border-radius: 32px;
-            background: radial-gradient(circle, rgba(108,207,106,0.3) 0%, rgba(108,207,106,0) 70%);
-            filter: blur(35px);
-            transition: all 0.4s ease;
+            width: 110%;
+            height: 110%;
+            max-width: 600px;
+            max-height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(126, 213, 111, 0.35) 0%, rgba(126, 213, 111, 0.1) 40%, transparent 70%);
+            filter: blur(45px);
+            transition: all 0.5s ease;
             z-index: 1;
             opacity: 0.7;
+            animation: glowPulse 3s ease-in-out infinite;
         }
 
-        /* Anillo externo */
-        .ring-outer {
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.6; transform: scale(0.98); filter: blur(45px); }
+            50% { opacity: 1; transform: scale(1.02); filter: blur(55px); }
+        }
+
+        /* Anillo orbital */
+        .orbital-ring {
             position: absolute;
             width: 100%;
             height: 100%;
-            max-width: 540px;
-            max-height: 540px;
-            border-radius: 40px;
-            background: transparent;
-            border: 1px solid rgba(108,207,106,0.2);
+            max-width: 580px;
+            max-height: 580px;
+            border-radius: 50%;
+            border: 1px solid rgba(126, 213, 111, 0.2);
             z-index: 0;
             transition: all 0.4s ease;
         }
 
-        .image-container {
-            position: relative;
-            z-index: 10;
-            border-radius: 32px;
-            overflow: hidden;
-            transform-style: preserve-3d;
-            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.2);
-            box-shadow: 
-                0 30px 50px -15px rgba(0,0,0,0.5),
-                0 0 0 1px rgba(108,207,106,0.2);
+        .orbital-ring::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            border: 0.5px dashed rgba(126, 213, 111, 0.15);
+            animation: spin 20s linear infinite;
         }
 
-        .image-container img {
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Contenedor de imagen con efectos 3D */
+        .image-3d {
+            position: relative;
+            z-index: 15;
+            border-radius: 36px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.3);
+            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(126, 213, 111, 0.25);
+            transform-style: preserve-3d;
+        }
+
+        .image-3d img {
             width: 100%;
-            max-width: 520px;
+            max-width: 560px;
             height: auto;
             display: block;
-            border-radius: 32px;
-            transition: transform 0.6s ease, filter 0.4s ease;
-            filter: brightness(1.05) contrast(1.08) saturate(1.12) drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+            border-radius: 36px;
+            transition: all 0.6s ease;
+            filter: brightness(1.02) contrast(1.06) saturate(1.1);
         }
 
-        /* Efecto 3D al hover */
-        .hero-image:hover .image-container {
-            transform: perspective(1000px) rotateX(3deg) rotateY(3deg);
-            box-shadow: 
-                0 35px 60px -15px rgba(0,0,0,0.6),
-                0 0 0 2px rgba(108,207,106,0.4);
-        }
-
-        .hero-image:hover .glow-layer {
+        /* Efectos hover intensos */
+        .image-master:hover .radiant-glow {
             opacity: 1;
-            filter: blur(45px);
-            background: radial-gradient(circle, rgba(108,207,106,0.5) 0%, rgba(108,207,106,0) 70%);
+            filter: blur(60px);
+            background: radial-gradient(circle, rgba(126, 213, 111, 0.5) 0%, rgba(126, 213, 111, 0.15) 50%, transparent 80%);
+            transform: scale(1.05);
+        }
+
+        .image-master:hover .orbital-ring {
+            border-color: rgba(126, 213, 111, 0.5);
+            box-shadow: 0 0 25px rgba(126, 213, 111, 0.2);
             transform: scale(1.02);
         }
 
-        .hero-image:hover .ring-outer {
-            border-color: rgba(108,207,106,0.5);
-            transform: scale(1.02);
-            box-shadow: 0 0 20px rgba(108,207,106,0.2);
+        .image-master:hover .image-3d {
+            transform: perspective(800px) rotateX(4deg) rotateY(4deg);
+            box-shadow: 0 40px 70px -20px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(126, 213, 111, 0.5);
         }
 
-        .hero-image:hover .image-container img {
+        .image-master:hover .image-3d img {
             transform: scale(1.02);
-            filter: brightness(1.1) contrast(1.12) saturate(1.2);
+            filter: brightness(1.08) contrast(1.1) saturate(1.15);
         }
 
-        /* Overlay de luz que sigue al mouse */
-        .light-follower {
+        /* Luz que sigue al mouse */
+        .mouse-light {
             position: absolute;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(108,207,106,0.25), transparent);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(126, 213, 111, 0.35), transparent);
             border-radius: 50%;
             pointer-events: none;
-            z-index: 20;
+            z-index: 25;
             opacity: 0;
             transition: opacity 0.2s;
-            filter: blur(15px);
+            filter: blur(20px);
         }
 
-        .hero-image:hover .light-follower {
+        .image-master:hover .mouse-light {
             opacity: 1;
         }
 
-        /* === TOOLTIP MINIMAL === */
-        .image-tooltip {
+        /* Tooltip elegante */
+        .image-caption {
             position: absolute;
-            bottom: -30px;
+            bottom: -35px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(10,15,10,0.8);
-            backdrop-filter: blur(12px);
-            padding: 0.3rem 1rem;
-            border-radius: 50px;
+            background: rgba(8, 15, 10, 0.85);
+            backdrop-filter: blur(16px);
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
             font-size: 0.7rem;
-            color: #8fdf8d;
+            color: #b8f2a0;
             white-space: nowrap;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.4s;
             pointer-events: none;
             z-index: 30;
-            border: 0.5px solid rgba(108,207,106,0.3);
+            border: 0.5px solid rgba(126, 213, 111, 0.3);
+            letter-spacing: 1px;
         }
 
-        .hero-image:hover .image-tooltip {
+        .image-master:hover .image-caption {
             opacity: 1;
         }
 
-        /* === BOTÓN FLOTANTE === */
-        .eco-btn {
+        /* === BOTÓN MÁGICO === */
+        .magic-btn {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            width: 52px;
-            height: 52px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
-            background: rgba(30,40,25,0.8);
-            backdrop-filter: blur(8px);
-            border: 0.5px solid rgba(108,207,106,0.4);
-            color: #8fdf8d;
-            font-size: 1.5rem;
+            background: rgba(25, 35, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border: 0.5px solid rgba(126, 213, 111, 0.4);
+            color: #a5e0a0;
+            font-size: 1.6rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            z-index: 100;
+            z-index: 200;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .eco-btn:hover {
+        .magic-btn:hover {
             background: #2e7d32;
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(76,175,80,0.4);
+            transform: scale(1.12);
+            box-shadow: 0 0 30px rgba(94, 207, 74, 0.5);
             border-color: transparent;
         }
 
         /* RESPONSIVE */
-        @media (max-width: 900px) {
+        @media (max-width: 950px) {
             .container { padding: 2rem 1.2rem; }
-            .grid { grid-template-columns: 1fr; gap: 2rem; }
-            .content { text-align: center; }
-            .tag { margin-left: auto; margin-right: auto; }
-            .description { max-width: 100%; margin: 0 auto 1.5rem auto; }
-            .stats-row { justify-content: center; }
-            .stat { text-align: center; }
-            .action-list li { justify-content: center; }
-            .author-line { justify-content: center; }
-            .hero-image { order: -1; margin-bottom: 1rem; }
-            .image-container img { max-width: 320px; }
-            .glow-layer, .ring-outer { max-width: 340px; }
+            .grid { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; }
+            .supertag { margin-left: auto; margin-right: auto; }
+            .description-premium { max-width: 100%; margin-left: auto; margin-right: auto; }
+            .metric-grid { justify-content: center; }
+            .metric { text-align: center; }
+            .pill-list li { justify-content: center; }
+            .signature { justify-content: center; }
+            .image-master { order: -1; margin-bottom: 1rem; }
+            .image-3d img { max-width: 340px; }
+            .radiant-glow, .orbital-ring { max-width: 380px; }
         }
 
-        /* ANIMACIONES DE ENTRADA */
-        .animate-in {
+        /* Animaciones de entrada */
+        .fade-up-premium {
             opacity: 0;
             transform: translateY(30px);
-            animation: slideUp 0.7s ease forwards;
+            animation: fadeUpSmooth 0.8s ease forwards;
         }
 
-        @keyframes slideUp {
+        @keyframes fadeUpSmooth {
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -484,267 +487,321 @@
         .delay-2 { animation-delay: 0.25s; }
         .delay-3 { animation-delay: 0.4s; }
         .delay-4 { animation-delay: 0.55s; }
+        .delay-5 { animation-delay: 0.7s; }
     </style>
 </head>
 
 <body>
 
-    <div class="bg-primary"></div>
+    <!-- CAPAS DE FONDO -->
+    <div class="bg-deep"></div>
+    <div class="noise"></div>
     
-    <!-- Estrellas generadas por JS -->
-    <div class="stars" id="starsContainer"></div>
-    
-    <!-- Ondas de fondo -->
-    <div class="waves">
-        <div class="wave"></div>
-        <div class="wave wave2"></div>
+    <div class="bg-circles">
+        <div class="bg-circle" style="width: 400px; height: 400px; top: -100px; left: -100px; animation-delay: 0s;"></div>
+        <div class="bg-circle" style="width: 600px; height: 600px; bottom: -200px; right: -100px; animation-delay: 5s;"></div>
+        <div class="bg-circle" style="width: 300px; height: 300px; top: 40%; left: 60%; animation-delay: 10s;"></div>
     </div>
     
-    <!-- Sistema de partículas avanzado -->
-    <div class="particle-system" id="particleSystem"></div>
+    <div class="aurora">
+        <div class="aurora-layer"></div>
+    </div>
+    
+    <div class="particle-field" id="particleField"></div>
 
     <main class="container">
         <div class="grid">
             
             <!-- COLUMNA IZQUIERDA -->
-            <div class="content animate-in delay-1">
-                <div class="tag">
-                    <span class="tag-pulse"></span>
-                    <span>SINTONÍA VERDE</span>
+            <div class="fade-up-premium delay-1">
+                <div class="supertag">
+                    <span class="pulse-ring"></span>
+                    <span>ARMONÍA NATURAL</span>
                 </div>
                 
                 <h1>
-                    el <span class="gradient-word">planeta</span><br>
-                    late en cada<br>
-                    pequeño gesto
+                    donde <span class="glow-text">late</span><br>
+                    la esencia<br>
+                    de la tierra
                 </h1>
                 
-                <p class="description">
-                    No se trata de perfección, sino de dirección. 
-                    Cada elección consciente suma. Cada respiro profundo conecta.
+                <p class="description-premium">
+                    Lo profundo sucede en lo pequeño. Cada respiro, cada elección, 
+                    un eco que restaura el equilibrio.
                 </p>
                 
-                <div class="stats-row">
-                    <div class="stat">
-                        <div class="stat-value" id="stat1">+0</div>
-                        <div class="stat-label">Árboles restaurados</div>
+                <div class="metric-grid">
+                    <div class="metric">
+                        <div class="metric-num" id="metricA">0</div>
+                        <div class="metric-label">ecosistemas</div>
                     </div>
-                    <div class="stat">
-                        <div class="stat-value" id="stat2">0%</div>
-                        <div class="stat-label">conciencia activa</div>
+                    <div class="metric">
+                        <div class="metric-num" id="metricB">0%</div>
+                        <div class="metric-label">conexión activa</div>
                     </div>
                 </div>
                 
-                <ul class="action-list">
-                    <li><span class="action-marker">✦</span> Nutre la tierra</li>
-                    <li><span class="action-marker">✦</span> Honra el agua</li>
-                    <li><span class="action-marker">✦</span> Cultiva silencio</li>
-                    <li><span class="action-marker">✦</span> Elige vida</li>
+                <ul class="pill-list">
+                    <li><span class="pill-marker">◈</span> Respira consciente</li>
+                    <li><span class="pill-marker">◈</span> Nutre la biodiversidad</li>
+                    <li><span class="pill-marker">◈</span> Restaura, no consumas</li>
+                    <li><span class="pill-marker">◈</span> Camina suave</li>
                 </ul>
                 
-                <div class="author-line">
-                    <span>○</span>
+                <div class="signature">
+                    <span>✧</span>
                     <span>presentado por</span>
-                    <strong>Eidan</strong>
+                    <strong>Eidan Yazid</strong>
                 </div>
             </div>
             
-            <!-- COLUMNA DERECHA - IMAGEN PROTAGONISTA -->
-            <div class="hero-image animate-in delay-2">
-                <div class="glow-layer"></div>
-                <div class="ring-outer"></div>
-                <div class="image-container">
-                    <img src="MedioAmbiente.png" alt="Medio Ambiente - esencia natural">
+            <!-- COLUMNA DERECHA - IMAGEN PROTAGONISTA MÁXIMA -->
+            <div class="image-master fade-up-premium delay-2">
+                <div class="radiant-glow"></div>
+                <div class="orbital-ring"></div>
+                <div class="image-3d">
+                    <img src="MedioAmbiente.png" alt="Medio Ambiente - conexión pura">
                 </div>
-                <div class="light-follower" id="lightFollower"></div>
-                <div class="image-tooltip">🌿 el alma de la tierra</div>
+                <div class="mouse-light" id="mouseLight"></div>
+                <div class="image-caption">🌿 el latido del planeta</div>
             </div>
             
         </div>
     </main>
 
-    <button class="eco-btn" id="ecoButton">🌱</button>
+    <button class="magic-btn" id="magicButton">🌱</button>
 
     <script>
         (function() {
-            // === 1. GENERAR ESTRELLAS DINÁMICAS ===
-            const starsContainer = document.getElementById('starsContainer');
-            for(let i = 0; i < 180; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.width = Math.random() * 3 + 1 + 'px';
-                star.style.height = star.style.width;
-                star.style.animationDelay = Math.random() * 5 + 's';
-                star.style.animationDuration = Math.random() * 4 + 2 + 's';
-                starsContainer.appendChild(star);
-            }
+            // === 1. SISTEMA DE PARTÍCULAS AVANZADO (más de 80) ===
+            const particleField = document.getElementById('particleField');
+            const particleColors = ['rgba(94,207,74,0.08)', 'rgba(126,213,111,0.06)', 'rgba(60,160,70,0.07)', 'rgba(40,120,50,0.05)'];
             
-            // === 2. PARTÍCULAS FLOTANTES AVANZADAS ===
-            const particleSys = document.getElementById('particleSystem');
-            const colors = ['rgba(76,175,80,0.12)', 'rgba(108,207,106,0.08)', 'rgba(60,150,70,0.1)'];
-            
-            function createParticle() {
+            function createAdvancedParticle() {
                 const p = document.createElement('div');
-                p.classList.add('floating-particle');
-                const size = Math.random() * 12 + 4;
-                p.style.width = size + 'px';
-                p.style.height = size + 'px';
+                p.style.position = 'absolute';
+                p.style.width = Math.random() * 18 + 3 + 'px';
+                p.style.height = p.style.width;
+                p.style.borderRadius = '50%';
+                p.style.background = particleColors[Math.floor(Math.random() * particleColors.length)];
                 p.style.left = Math.random() * 100 + '%';
-                p.style.background = colors[Math.floor(Math.random() * colors.length)];
-                p.style.animationDuration = Math.random() * 14 + 10 + 's';
-                p.style.animationDelay = Math.random() * 8 + 's';
-                p.style.filter = `blur(${Math.random() * 3 + 1}px)`;
-                particleSys.appendChild(p);
+                p.style.bottom = '-20px';
+                p.style.filter = `blur(${Math.random() * 4 + 1}px)`;
+                p.style.pointerEvents = 'none';
+                p.style.animation = `floatUp ${Math.random() * 12 + 10}s linear infinite`;
+                p.style.animationDelay = Math.random() * 10 + 's';
+                p.style.opacity = Math.random() * 0.5 + 0.2;
+                particleField.appendChild(p);
                 
                 p.addEventListener('animationend', () => {
                     p.remove();
-                    createParticle();
+                    createAdvancedParticle();
                 });
             }
             
-            for(let i = 0; i < 45; i++) {
-                setTimeout(() => createParticle(), i * 100);
+            // Agregar keyframe dinámicamente
+            const styleSheet = document.createElement("style");
+            styleSheet.textContent = `
+                @keyframes floatUp {
+                    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+                    10% { opacity: 0.6; }
+                    90% { opacity: 0.4; }
+                    100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(styleSheet);
+            
+            for(let i = 0; i < 90; i++) {
+                setTimeout(() => createAdvancedParticle(), i * 60);
             }
             
-            // === 3. CONTADORES DINÁMICOS (efecto de números) ===
-            const stat1 = document.getElementById('stat1');
-            const stat2 = document.getElementById('stat2');
-            let animated = false;
+            // === 2. CONTADORES CON EFECTO SMOOTH ===
+            const metricA = document.getElementById('metricA');
+            const metricB = document.getElementById('metricB');
+            let counted = false;
             
-            function animateStats() {
-                if(animated) return;
-                animated = true;
-                let target1 = 1240;
-                let target2 = 68;
-                let current1 = 0;
-                let current2 = 0;
-                let step1 = target1 / 60;
-                let step2 = target2 / 60;
+            function startCounters() {
+                if(counted) return;
+                counted = true;
+                let targetA = 1842;
+                let targetB = 73;
+                let currentA = 0;
+                let currentB = 0;
+                let stepA = targetA / 70;
+                let stepB = targetB / 70;
                 let interval = setInterval(() => {
-                    current1 += step1;
-                    current2 += step2;
-                    if(current1 >= target1) {
-                        current1 = target1;
-                        current2 = target2;
+                    currentA += stepA;
+                    currentB += stepB;
+                    if(currentA >= targetA) {
+                        currentA = targetA;
+                        currentB = targetB;
                         clearInterval(interval);
                     }
-                    stat1.innerText = '+' + Math.floor(current1);
-                    stat2.innerText = Math.floor(current2) + '%';
+                    metricA.innerText = '+' + Math.floor(currentA);
+                    metricB.innerText = Math.floor(currentB) + '%';
                 }, 25);
             }
             
-            // Observer para estadísticas
-            const statsObserver = new IntersectionObserver((entries) => {
+            const observerCounters = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if(entry.isIntersecting) {
-                        animateStats();
-                        statsObserver.disconnect();
+                        startCounters();
+                        observerCounters.disconnect();
                     }
                 });
             }, { threshold: 0.3 });
-            statsObserver.observe(document.querySelector('.stats-row'));
+            observerCounters.observe(document.querySelector('.metric-grid'));
             
-            // === 4. LUZ SIGUIENTE DEL MOUSE EN LA IMAGEN ===
-            const heroImage = document.querySelector('.hero-image');
-            const lightFollower = document.getElementById('lightFollower');
+            // === 3. LUZ QUE SIGUE AL MOUSE SOBRE LA IMAGEN ===
+            const imageMaster = document.querySelector('.image-master');
+            const mouseLight = document.getElementById('mouseLight');
             
-            heroImage.addEventListener('mousemove', (e) => {
-                const rect = heroImage.getBoundingClientRect();
+            imageMaster.addEventListener('mousemove', (e) => {
+                const rect = imageMaster.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                lightFollower.style.left = x - 75 + 'px';
-                lightFollower.style.top = y - 75 + 'px';
+                mouseLight.style.left = x - 100 + 'px';
+                mouseLight.style.top = y - 100 + 'px';
             });
             
-            heroImage.addEventListener('mouseleave', () => {
-                lightFollower.style.left = '50%';
-                lightFollower.style.top = '50%';
+            imageMaster.addEventListener('mouseleave', () => {
+                mouseLight.style.left = '50%';
+                mouseLight.style.top = '50%';
             });
             
-            // === 5. INTERACCIÓN CON ELEMENTOS DE LISTA (mensajes + efecto sonoro visual) ===
-            const actions = document.querySelectorAll('.action-list li');
-            const ecoBtn = document.getElementById('ecoButton');
-            const messages = [
-                '🌱 la tierra respira contigo',
-                '💧 cada gota es un mantra',
-                '🍃 honra tu entorno',
-                '🌳 planta un árbol, siembra calma'
+            // === 4. PARALAXIS 3D + GLOW DINÁMICO ===
+            const image3d = document.querySelector('.image-3d');
+            const radiantGlow = document.querySelector('.radiant-glow');
+            
+            document.addEventListener('mousemove', (e) => {
+                if(!imageMaster.matches(':hover')) return;
+                const mouseX = (e.clientX / window.innerWidth - 0.5) * 12;
+                const mouseY = (e.clientY / window.innerHeight - 0.5) * 8;
+                image3d.style.transform = `perspective(1000px) rotateY(${mouseX}deg) rotateX(${-mouseY * 0.6}deg)`;
+                
+                if(radiantGlow) {
+                    const glowX = (e.clientX / window.innerWidth) * 100;
+                    const glowY = (e.clientY / window.innerHeight) * 100;
+                    radiantGlow.style.background = `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(126,213,111,0.45) 0%, rgba(126,213,111,0.1) 50%, transparent 80%)`;
+                }
+            });
+            
+            imageMaster.addEventListener('mouseleave', () => {
+                image3d.style.transform = '';
+                if(radiantGlow) {
+                    radiantGlow.style.background = `radial-gradient(circle, rgba(126,213,111,0.35) 0%, rgba(126,213,111,0.1) 40%, transparent 70%)`;
+                }
+            });
+            
+            // === 5. INTERACCIONES CON LISTA + MENSAJES FLOTANTES AVANZADOS ===
+            const listItems = document.querySelectorAll('.pill-list li');
+            const magicMessages = [
+                '🌱 respira con el planeta',
+                '💧 el agua es memoria viva',
+                '🍃 camina en gratitud',
+                '🌳 cada árbol un pulmón',
+                '✨ pequeño gesto, gran eco'
             ];
             
-            actions.forEach((item, idx) => {
+            function showFloatingMsg(text, element) {
+                const rect = element.getBoundingClientRect();
+                const msgDiv = document.createElement('div');
+                msgDiv.innerText = text;
+                msgDiv.style.position = 'fixed';
+                msgDiv.style.left = rect.left + 'px';
+                msgDiv.style.top = rect.top - 35 + 'px';
+                msgDiv.style.background = 'rgba(10, 20, 12, 0.9)';
+                msgDiv.style.backdropFilter = 'blur(16px)';
+                msgDiv.style.padding = '0.4rem 1.2rem';
+                msgDiv.style.borderRadius = '100px';
+                msgDiv.style.fontSize = '0.7rem';
+                msgDiv.style.color = '#c0f0b0';
+                msgDiv.style.border = '0.5px solid rgba(126,213,111,0.4)';
+                msgDiv.style.zIndex = '300';
+                msgDiv.style.fontFamily = 'Inter, sans-serif';
+                msgDiv.style.whiteSpace = 'nowrap';
+                msgDiv.style.pointerEvents = 'none';
+                msgDiv.style.transition = 'all 0.3s ease';
+                document.body.appendChild(msgDiv);
+                
+                setTimeout(() => {
+                    msgDiv.style.opacity = '0';
+                    msgDiv.style.transform = 'translateY(-15px)';
+                    setTimeout(() => msgDiv.remove(), 400);
+                }, 1400);
+            }
+            
+            listItems.forEach((item, idx) => {
                 item.addEventListener('click', () => {
-                    const msg = messages[idx % messages.length];
-                    showFloatingMessage(msg, item);
+                    const msg = magicMessages[idx % magicMessages.length];
+                    showFloatingMsg(msg, item);
+                    
+                    // Efecto ripple visual en el item
+                    item.style.transform = 'translateX(8px)';
+                    setTimeout(() => { item.style.transform = ''; }, 200);
                 });
             });
             
-            function showFloatingMessage(msg, element) {
-                const rect = element.getBoundingClientRect();
-                const floatingMsg = document.createElement('div');
-                floatingMsg.innerText = msg;
-                floatingMsg.style.position = 'fixed';
-                floatingMsg.style.left = rect.left + 'px';
-                floatingMsg.style.top = rect.top - 30 + 'px';
-                floatingMsg.style.background = 'rgba(10,20,10,0.85)';
-                floatingMsg.style.backdropFilter = 'blur(12px)';
-                floatingMsg.style.padding = '0.3rem 1rem';
-                floatingMsg.style.borderRadius = '40px';
-                floatingMsg.style.fontSize = '0.7rem';
-                floatingMsg.style.color = '#a5e0a0';
-                floatingMsg.style.border = '0.5px solid rgba(108,207,106,0.4)';
-                floatingMsg.style.zIndex = '200';
-                floatingMsg.style.pointerEvents = 'none';
-                floatingMsg.style.whiteSpace = 'nowrap';
-                floatingMsg.style.fontFamily = 'Inter, sans-serif';
-                document.body.appendChild(floatingMsg);
-                
-                setTimeout(() => {
-                    floatingMsg.style.opacity = '0';
-                    floatingMsg.style.transform = 'translateY(-20px)';
-                    floatingMsg.style.transition = 'all 0.4s ease';
-                    setTimeout(() => floatingMsg.remove(), 500);
-                }, 1500);
-            }
+            // === 6. BOTÓN MÁGICO CON MENSAJES SORPRESA Y SONIDO VISUAL ===
+            const magicBtn = document.getElementById('magicButton');
+            const surpriseMsgs = [
+                '🌿 la tierra sonríe', '🍃 respira profundo', '💚 eres parte de esto', 
+                '🌎 el cambio eres tú', '✨ actúa con amor', '🍀 naturaleza agradece'
+            ];
             
-            // === 6. BOTÓN FLOTANTE CON MENSAJE SORPRESA ===
-            ecoBtn.addEventListener('click', () => {
-                const surprise = ['🌿 respira profundo', '🍃 conecta con la tierra', '💚 pequeño gesto, gran huella', '🌎 el planeta te necesita'];
-                const randomSurprise = surprise[Math.floor(Math.random() * surprise.length)];
-                showFloatingMessage(randomSurprise, ecoBtn);
+            magicBtn.addEventListener('click', () => {
+                const randomMsg = surpriseMsgs[Math.floor(Math.random() * surpriseMsgs.length)];
+                showFloatingMsg(randomMsg, magicBtn);
                 
-                // Efecto ripple en botón
-                ecoBtn.style.transform = 'scale(0.95)';
-                setTimeout(() => { ecoBtn.style.transform = 'scale(1.1)'; }, 100);
-                setTimeout(() => { ecoBtn.style.transform = 'scale(1)'; }, 200);
-            });
-            
-            // === 7. EFECTO DE PARALAXIS SUTIL EN LA IMAGEN ===
-            document.addEventListener('mousemove', (e) => {
-                const imgContainer = document.querySelector('.image-container');
-                if(!imgContainer) return;
-                const mouseX = (e.clientX / window.innerWidth - 0.5) * 8;
-                const mouseY = (e.clientY / window.innerHeight - 0.5) * 8;
-                imgContainer.style.transform = `perspective(800px) rotateY(${mouseX * 0.5}deg) rotateX(${-mouseY * 0.3}deg)`;
+                // Efecto de onda expansiva
+                magicBtn.style.transform = 'scale(0.9)';
+                setTimeout(() => { magicBtn.style.transform = 'scale(1.12)'; }, 100);
+                setTimeout(() => { magicBtn.style.transform = 'scale(1)'; }, 200);
                 
-                const glow = document.querySelector('.glow-layer');
-                if(glow) {
-                    const glowX = (e.clientX / window.innerWidth) * 100;
-                    const glowY = (e.clientY / window.innerHeight) * 100;
-                    glow.style.background = `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(108,207,106,0.35) 0%, rgba(108,207,106,0) 70%)`;
+                // Efecto adicional: pequeña lluvia de partículas verdes
+                for(let i = 0; i < 12; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.position = 'fixed';
+                    particle.style.width = '4px';
+                    particle.style.height = '4px';
+                    particle.style.background = '#7ed56f';
+                    particle.style.borderRadius = '50%';
+                    particle.style.left = (magicBtn.getBoundingClientRect().left + 28) + 'px';
+                    particle.style.top = (magicBtn.getBoundingClientRect().top + 28) + 'px';
+                    particle.style.pointerEvents = 'none';
+                    particle.style.zIndex = '250';
+                    particle.style.animation = `particleBurst 0.6s ease-out forwards`;
+                    document.body.appendChild(particle);
+                    
+                    setTimeout(() => particle.remove(), 600);
                 }
             });
             
-            // Reset imagen al salir del contenedor
-            const heroContainer = document.querySelector('.hero-image');
-            heroContainer.addEventListener('mouseleave', () => {
-                const imgContainer = document.querySelector('.image-container');
-                imgContainer.style.transform = '';
-                const glow = document.querySelector('.glow-layer');
-                if(glow) {
-                    glow.style.background = `radial-gradient(circle, rgba(108,207,106,0.3) 0%, rgba(108,207,106,0) 70%)`;
+            // Keyframe dinámico para partículas del botón
+            const burstStyle = document.createElement('style');
+            burstStyle.textContent = `
+                @keyframes particleBurst {
+                    0% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+                    100% { transform: translate(${Math.random() * 60 - 30}px, ${Math.random() * -50 - 20}px) scale(0); opacity: 0; }
                 }
+            `;
+            document.head.appendChild(burstStyle);
+            
+            // === 7. EFECTO DE CARGADO: BRILLO INICIAL ===
+            setTimeout(() => {
+                const glow = document.querySelector('.radiant-glow');
+                if(glow) {
+                    glow.style.animation = 'none';
+                    setTimeout(() => { glow.style.animation = 'glowPulse 3s ease-in-out infinite'; }, 50);
+                }
+            }, 100);
+            
+            // === 8. SCROLL SMOOTH CON CAMBIO SUTIL DE OPACIDAD ===
+            window.addEventListener('scroll', () => {
+                const scrolled = window.scrollY;
+                const maxScroll = document.body.scrollHeight - window.innerHeight;
+                const opacity = 1 - (scrolled / maxScroll) * 0.15;
+                document.querySelector('.radiant-glow').style.opacity = 0.5 + (1 - opacity) * 0.3;
             });
             
         })();
