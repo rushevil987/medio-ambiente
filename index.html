@@ -19,536 +19,540 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #fafaf9;
-            color: #1c1c1e;
+            background: #0d0f0e;
+            color: #e8e8e8;
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* Cursor personalizado */
-        .cursor {
-            width: 8px;
-            height: 8px;
-            background: #2e7d32;
-            border-radius: 50%;
+        /* === FONDO DINÁMICO CON CSS === */
+        .bg-gradient {
             position: fixed;
-            pointer-events: none;
-            z-index: 999;
-            transition: transform 0.1s ease;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(ellipse at 20% 40%, #1a2e1f, #0a0f0b);
         }
 
-        .cursor-follower {
-            width: 40px;
-            height: 40px;
-            border: 1.5px solid rgba(46, 125, 50, 0.3);
-            border-radius: 50%;
+        /* Partículas flotantes (CSS puro) */
+        .particles {
             position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(76, 175, 80, 0.15);
+            border-radius: 50%;
             pointer-events: none;
-            z-index: 998;
-            transition: transform 0.15s ease;
+            animation: float-particle linear infinite;
+        }
+
+        @keyframes float-particle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-20vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Grid de fondo sutil */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(76, 175, 80, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(76, 175, 80, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
         }
 
         /* Contenedor principal */
         .container {
-            max-width: 1300px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 4rem 2rem;
+            padding: 2rem 2rem;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            position: relative;
+            z-index: 2;
         }
 
         /* Grid responsivo */
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 5rem;
+            gap: 4rem;
             align-items: center;
         }
 
-        /* Badge animado */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(46, 125, 50, 0.08);
-            backdrop-filter: blur(10px);
-            padding: 0.5rem 1.25rem;
-            border-radius: 100px;
-            width: fit-content;
-            margin-bottom: 2rem;
-            border: 0.5px solid rgba(46, 125, 50, 0.2);
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: #2e7d32;
-            letter-spacing: 0.3px;
-            transition: all 0.3s ease;
-        }
-
-        .badge:hover {
-            background: rgba(46, 125, 50, 0.12);
-            transform: scale(1.02);
-        }
-
-        .badge-dot {
-            width: 8px;
-            height: 8px;
-            background: #2e7d32;
-            border-radius: 50%;
+        /* === ESTILOS DEL CONTENIDO === */
+        .overline {
             display: inline-block;
-            animation: pulse-dot 1.5s infinite;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
-        }
-
-        /* Título */
-        h1 {
-            font-size: clamp(2.8rem, 6vw, 5rem);
-            font-weight: 550;
-            letter-spacing: -0.03em;
-            line-height: 1.08;
-            margin-bottom: 1.75rem;
-            color: #141414;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 70%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: shine 3s linear infinite;
-        }
-
-        @keyframes shine {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Descripción */
-        .description {
-            font-size: 1.05rem;
-            color: #5e5e5e;
-            margin-bottom: 2.25rem;
-            line-height: 1.65;
+            font-size: 0.7rem;
             font-weight: 400;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(200, 240, 180, 0.7);
+            margin-bottom: 2rem;
+            border-left: 2px solid #4caf50;
+            padding-left: 1rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .accent {
+            color: #6ccf6a;
+            font-weight: 500;
+            position: relative;
+            display: inline-block;
+        }
+
+        .accent::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, #6ccf6a, transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        h1:hover .accent::after {
+            transform: scaleX(1);
+        }
+
+        .description {
+            font-size: 0.95rem;
+            color: rgba(220, 220, 220, 0.7);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            font-weight: 300;
             max-width: 90%;
         }
 
-        /* Stats/mini cards */
-        .stats {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 2.5rem;
-            flex-wrap: wrap;
+        /* Línea divisora minimal */
+        .divider {
+            width: 40px;
+            height: 1px;
+            background: rgba(108, 207, 106, 0.4);
+            margin: 1.5rem 0;
         }
 
-        .stat-item {
-            text-align: left;
-        }
-
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: 650;
-            color: #2e7d32;
-            letter-spacing: -0.02em;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: #8a8a8a;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Lista de acciones con hover */
+        /* Acciones minimalistas */
         .actions {
             list-style: none;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .actions li {
             display: flex;
             align-items: center;
-            gap: 0.875rem;
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
-            color: #3a3a3a;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: rgba(230, 230, 230, 0.8);
             cursor: pointer;
-            transition: transform 0.2s ease, color 0.2s;
-            padding: 0.25rem 0;
+            transition: all 0.2s ease;
+            letter-spacing: 0.2px;
         }
 
         .actions li:hover {
-            transform: translateX(6px);
-            color: #2e7d32;
+            color: #6ccf6a;
+            transform: translateX(4px);
         }
 
-        .check {
-            width: 26px;
-            height: 26px;
-            background: linear-gradient(135deg, #e8f5e9, #ffffff);
+        .dot {
+            width: 4px;
+            height: 4px;
+            background: #6ccf6a;
             border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            color: #2e7d32;
-            font-weight: 700;
-            transition: all 0.2s;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
         }
 
-        .actions li:hover .check {
-            background: #2e7d32;
-            color: white;
-            transform: scale(1.1);
+        .actions li:hover .dot {
+            width: 6px;
+            height: 6px;
+            background: #8fdf8d;
+            box-shadow: 0 0 6px rgba(108, 207, 106, 0.5);
         }
 
-        /* Autor */
+        /* Autor minimal */
         .author {
             display: flex;
             align-items: center;
-            gap: 0.875rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #e6e6e5;
-            font-size: 0.9rem;
-            color: #8a8a8a;
+            gap: 0.75rem;
+            font-size: 0.75rem;
+            color: rgba(200, 200, 200, 0.5);
+            letter-spacing: 1px;
         }
 
         .author strong {
-            color: #2e7d32;
-            font-weight: 600;
-            background: rgba(46,125,50,0.08);
+            color: #6ccf6a;
+            font-weight: 400;
+            background: rgba(108, 207, 106, 0.08);
             padding: 0.2rem 0.6rem;
             border-radius: 20px;
+            font-size: 0.7rem;
         }
 
-        /* Lado derecho - imagen */
+        /* === IMAGEN QUE RESALTA (EFECTO GLASS + BRILLO) === */
+        .image-frame {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Efecto de brillo exterior */
+        .glow-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            max-width: 460px;
+            max-height: 460px;
+            border-radius: 28px;
+            background: radial-gradient(circle, rgba(108,207,106,0.2) 0%, rgba(108,207,106,0) 70%);
+            filter: blur(20px);
+            transition: opacity 0.5s ease;
+            opacity: 0.6;
+            z-index: 0;
+        }
+
         .image-wrapper {
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .image-card {
-            position: relative;
-            border-radius: 32px;
+            z-index: 2;
+            border-radius: 28px;
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 
+                0 20px 40px -12px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(108, 207, 106, 0.15);
         }
 
-        .image-card img {
+        .image-wrapper img {
             width: 100%;
-            max-width: 480px;
+            max-width: 460px;
             height: auto;
-            border-radius: 32px;
-            object-fit: cover;
             display: block;
-            transition: transform 0.6s ease;
-            filter: grayscale(0%) contrast(1.02);
+            border-radius: 28px;
+            transition: transform 0.7s ease, filter 0.5s ease;
+            filter: brightness(1.02) contrast(1.05) saturate(1.1);
+            backdrop-filter: blur(0px);
         }
 
-        .image-card:hover img {
+        /* Hover en imagen: zoom + brillo intenso */
+        .image-frame:hover .glow-ring {
+            opacity: 1;
+            filter: blur(30px);
+            background: radial-gradient(circle, rgba(108,207,106,0.35) 0%, rgba(108,207,106,0) 70%);
+        }
+
+        .image-frame:hover .image-wrapper {
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 0 1.5px rgba(108, 207, 106, 0.4);
+        }
+
+        .image-frame:hover .image-wrapper img {
             transform: scale(1.02);
+            filter: brightness(1.05) contrast(1.08) saturate(1.15);
         }
 
-        /* Efecto glass en la imagen */
-        .glass-overlay {
+        /* Sutil glass overlay */
+        .glass-touch {
             position: absolute;
             inset: 0;
-            background: linear-gradient(120deg, rgba(255,255,255,0.1), rgba(255,255,255,0.01));
-            border-radius: 32px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(108,207,106,0.02) 100%);
+            border-radius: 28px;
             pointer-events: none;
+            z-index: 3;
         }
 
-        /* Decoración detrás */
-        .orb {
-            position: absolute;
-            width: 90%;
-            height: 90%;
-            background: radial-gradient(circle, rgba(46,125,50,0.12), transparent 70%);
-            border-radius: 50%;
-            z-index: -1;
-            animation: float-orb 8s ease-in-out infinite;
-        }
-
-        @keyframes float-orb {
-            0%, 100% { transform: translate(0%, 0%) scale(1); opacity: 0.6; }
-            50% { transform: translate(2%, -3%) scale(1.05); opacity: 0.9; }
-        }
-
-        /* Botón flotante de regreso a la naturaleza (JS) */
-        .leaf-btn {
+        /* === MICRO-INTERACCIONES JS === */
+        .focus-hint {
             position: fixed;
             bottom: 2rem;
-            right: 2rem;
-            background: rgba(46,125,50,0.9);
-            backdrop-filter: blur(8px);
-            border: none;
-            color: white;
-            width: 48px;
-            height: 48px;
-            border-radius: 60px;
-            cursor: pointer;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            left: 2rem;
+            font-size: 0.65rem;
+            color: rgba(200,200,200,0.3);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
             z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: opacity 0.3s;
         }
 
-        .leaf-btn:hover {
-            background: #2e7d32;
-            transform: scale(1.08);
-            box-shadow: 0 8px 28px rgba(46,125,50,0.3);
-        }
-
-        /* Scroll suave */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Mobile */
+        /* Responsive */
         @media (max-width: 900px) {
             .container {
                 padding: 2rem 1.5rem;
             }
-
             .grid {
                 grid-template-columns: 1fr;
                 gap: 2.5rem;
             }
-
             .content {
                 text-align: center;
             }
-
-            .badge {
+            .overline {
                 margin-left: auto;
                 margin-right: auto;
+                border-left: none;
+                border-bottom: 2px solid #4caf50;
+                padding-left: 0;
+                padding-bottom: 0.5rem;
             }
-
             .description {
                 max-width: 100%;
                 margin-left: auto;
                 margin-right: auto;
             }
-
-            .stats {
-                justify-content: center;
-            }
-
-            .stat-item {
-                text-align: center;
-            }
-
-            .actions li {
-                justify-content: flex-start;
-                text-align: left;
-                max-width: 280px;
+            .divider {
                 margin-left: auto;
                 margin-right: auto;
             }
-
+            .actions li {
+                justify-content: center;
+            }
             .author {
                 justify-content: center;
             }
-
-            .image-wrapper {
+            .image-frame {
                 order: -1;
             }
-
-            .image-card img {
+            .image-wrapper img {
                 max-width: 320px;
             }
-
-            .cursor, .cursor-follower {
+            .glow-ring {
+                max-width: 320px;
+                max-height: 320px;
+            }
+            .focus-hint {
                 display: none;
             }
         }
 
-        /* Fade-in animación */
-        .fade-up {
+        /* Fade-in elegante */
+        .fade-in {
             opacity: 0;
-            transform: translateY(24px);
-            animation: fadeUp 0.7s ease forwards;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
         }
 
-        @keyframes fadeUp {
+        @keyframes fadeInUp {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.35s; }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.35s; }
+        .delay-400 { animation-delay: 0.5s; }
     </style>
 </head>
 
 <body>
 
-    <!-- Cursor personalizado solo escritorio -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
-
-    <!-- Botón flotante -->
-    <button class="leaf-btn" id="natureBtn" aria-label="Cuidemos la naturaleza">🌿</button>
+    <!-- Fondo dinámico CSS -->
+    <div class="bg-gradient"></div>
+    <div class="grid-bg"></div>
+    <div class="particles" id="particles"></div>
 
     <main class="container">
         <div class="grid">
-            <!-- Columna izquierda -->
-            <div class="content fade-up">
-                <div class="badge">
-                    <span class="badge-dot"></span>
-                    <span>ACCIONES REALES</span>
-                </div>
-
+            
+            <!-- Columna izquierda - contenido -->
+            <div class="content fade-in">
+                <div class="overline">EN ARMONÍA</div>
+                
                 <h1>
-                    Donde la vida<br>
-                    <span class="gradient-text">florece</span>,<br>
-                    el futuro respira.
+                    donde <span class="accent">la tierra</span><br>
+                    respira libre
                 </h1>
-
+                
                 <p class="description">
-                    No se trata de grandes gestos, sino de decisiones cotidianas. 
-                    Cada árbol, cada gota de agua, cada gesto cuenta para 
-                    construir un planeta más vivo.
+                    Lo pequeño es profundo. Reducir, restaurar, respetar. 
+                    No necesitas grandes gestos, solo decisiones conscientes.
                 </p>
-
-                <!-- Stats -->
-                <div class="stats">
-                    <div class="stat-item">
-                        <div class="stat-number">+1.2M</div>
-                        <div class="stat-label">Árboles plantados</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">-45%</div>
-                        <div class="stat-label">Huella de carbono</div>
-                    </div>
-                </div>
-
-                <!-- Acciones -->
+                
+                <div class="divider"></div>
+                
                 <ul class="actions">
-                    <li><span class="check">✓</span> Reduce, reúsa, recicla</li>
-                    <li><span class="check">✓</span> Ahorra energía y agua</li>
-                    <li><span class="check">✓</span> Planta un árbol</li>
-                    <li><span class="check">✓</span> Movilidad sostenible</li>
+                    <li><span class="dot"></span> Consume menos, vive más</li>
+                    <li><span class="dot"></span> Protege el agua</li>
+                    <li><span class="dot"></span> Planta futuro</li>
+                    <li><span class="dot"></span> Elige movilidad limpia</li>
                 </ul>
-
+                
                 <div class="author">
-                    <span>✦ Presentado por</span>
+                    <span>✦</span>
+                    <span>Presentado por</span>
                     <strong>Eidan</strong>
                 </div>
             </div>
-
-            <!-- Columna derecha - imagen -->
-            <div class="image-wrapper fade-up delay-2">
-                <div class="orb"></div>
-                <div class="image-card">
-                    <img src="MedioAmbiente.png" alt="Medio Ambiente - Conexión con la naturaleza">
-                    <div class="glass-overlay"></div>
+            
+            <!-- Columna derecha - imagen que resalta -->
+            <div class="image-frame fade-in delay-200">
+                <div class="glow-ring"></div>
+                <div class="image-wrapper">
+                    <img src="MedioAmbiente.png" alt="Medio Ambiente - conexión natural">
+                    <div class="glass-touch"></div>
                 </div>
             </div>
+            
         </div>
     </main>
 
+    <div class="focus-hint" id="focusHint">
+        ⚡ respira · conecta
+    </div>
+
     <script>
-        // Cursor personalizado (solo escritorio)
-        if (window.innerWidth > 900) {
-            const cursor = document.querySelector('.cursor');
-            const follower = document.querySelector('.cursor-follower');
-
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.transform = `translate(${e.clientX - 4}px, ${e.clientY - 4}px)`;
-                follower.style.transform = `translate(${e.clientX - 20}px, ${e.clientY - 20}px)`;
-            });
-
-            // Efecto hover en elementos clickeables
-            const hoverables = document.querySelectorAll('a, button, .actions li, .badge, .stat-item');
-            hoverables.forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    follower.style.transform = `scale(1.4)`;
-                    follower.style.borderColor = 'rgba(46,125,50,0.6)';
+        (function() {
+            // === 1. PARTÍCULAS DINÁMICAS CON JS ===
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 35;
+            
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 6 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.opacity = Math.random() * 0.4 + 0.1;
+                particle.style.animationDuration = Math.random() * 12 + 8 + 's';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.background = `rgba(108, 207, 106, ${Math.random() * 0.2 + 0.05})`;
+                particlesContainer.appendChild(particle);
+                
+                // Remover después de la animación para no acumular
+                particle.addEventListener('animationend', () => {
+                    particle.remove();
+                    createParticle(); // regenerar
                 });
-                el.addEventListener('mouseleave', () => {
-                    follower.style.transform = `scale(1)`;
-                    follower.style.borderColor = 'rgba(46,125,50,0.3)';
+            }
+            
+            for(let i = 0; i < particleCount; i++) {
+                setTimeout(() => createParticle(), i * 200);
+            }
+            
+            // === 2. EFECTO DE BRILLO SEGUIDOR DE MOUSE EN LA IMAGEN ===
+            const imageFrame = document.querySelector('.image-frame');
+            const glowRing = document.querySelector('.glow-ring');
+            
+            if(imageFrame && glowRing) {
+                imageFrame.addEventListener('mousemove', (e) => {
+                    const rect = imageFrame.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    glowRing.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(108,207,106,0.4) 0%, rgba(108,207,106,0) 70%)`;
                 });
-            });
-        }
-
-        // Botón flotante: muestra alerta amigable
-        const natureBtn = document.getElementById('natureBtn');
-        natureBtn.addEventListener('click', () => {
+                
+                imageFrame.addEventListener('mouseleave', () => {
+                    glowRing.style.background = `radial-gradient(circle, rgba(108,207,106,0.2) 0%, rgba(108,207,106,0) 70%)`;
+                });
+            }
+            
+            // === 3. INTERACCIÓN CON LAS ACCIONES (efecto sutil de mensaje) ===
+            const actionItems = document.querySelectorAll('.actions li');
             const messages = [
-                '🌱 Cada pequeño gesto cuenta. ¡Sigue así!',
-                '🍃 La Tierra te necesita. Actúa hoy.',
-                '💧 Ahorra agua, ahorra vida.',
-                '🌳 Planta un árbol, planta esperanza.',
-                '♻️ Reduce, reúsa, recicla siempre.'
+                '🌱 Reduce tu huella',
+                '💧 Cada gota cuenta',
+                '🌳 Un árbol cambia todo',
+                '🚲 Elige verde'
             ];
-            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-            alert(randomMsg);
-        });
-
-        // Animación de números al hacer scroll
-        const statNumbers = document.querySelectorAll('.stat-number');
-        let animated = false;
-
-        function animateNumbers() {
-            if (animated) return;
-            statNumbers.forEach(el => {
-                let target = el.innerText;
-                let raw = target.replace(/[^0-9.-]+/g, '');
-                if (!raw) return;
-                let isNegative = target.includes('-');
-                let suffix = target.replace(/[0-9.-]/g, '');
-                let num = parseFloat(raw);
-                if (isNaN(num)) return;
-                let current = 0;
-                let increment = num / 50;
-                let interval = setInterval(() => {
-                    current += increment;
-                    if (current >= num) {
-                        clearInterval(interval);
-                        current = num;
+            
+            actionItems.forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    const msg = messages[index % messages.length];
+                    const hint = document.getElementById('focusHint');
+                    const originalText = hint.innerText;
+                    hint.style.opacity = '1';
+                    hint.style.color = 'rgba(108, 207, 106, 0.8)';
+                    hint.innerText = `✦ ${msg} ✦`;
+                    setTimeout(() => {
+                        hint.style.color = 'rgba(200,200,200,0.3)';
+                        hint.innerText = originalText;
+                    }, 1500);
+                });
+            });
+            
+            // === 4. EFECTO DE APARICIÓN SUTIL CON SCROLL ===
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
                     }
-                    let display = Math.floor(current);
-                    if (isNegative) display = -display;
-                    el.innerText = (isNegative ? '-' : '') + display + suffix;
-                }, 20);
+                });
+            }, { threshold: 0.2 });
+            
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
             });
-            animated = true;
-        }
-
-        // Observer para activar números al hacer scroll
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateNumbers();
-                    observer.disconnect();
+            
+            // === 5. RELOJ BIÓFILO: mensaje dinámico cada 20s ===
+            let messagesCycle = [
+                "🍃 respira profundo",
+                "🌿 cuida lo que amas",
+                "💚 pequeño gesto, gran cambio",
+                "🌎 la naturaleza te espera"
+            ];
+            let idx = 0;
+            setInterval(() => {
+                const hint = document.getElementById('focusHint');
+                if(hint && hint.innerText.includes('respira')) {
+                    hint.style.opacity = '0.7';
+                    hint.innerText = `✦ ${messagesCycle[idx % messagesCycle.length]} ✦`;
+                    setTimeout(() => {
+                        if(hint.innerText.includes(messagesCycle[idx % messagesCycle.length])) {
+                            hint.innerText = '⚡ respira · conecta';
+                            hint.style.opacity = '0.5';
+                        }
+                    }, 2800);
+                    idx++;
                 }
-            });
-        }, { threshold: 0.3 });
-
-        const statsSection = document.querySelector('.stats');
-        if (statsSection) observer.observe(statsSection);
-
-        // Efecto de aparición al cargar
-        window.addEventListener('load', () => {
-            document.body.style.background = '#fafaf9';
-        });
+            }, 18000);
+            
+        })();
     </script>
 </body>
 
