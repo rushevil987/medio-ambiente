@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Medio Ambiente | Eidan</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            color: #111111;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Contenedor principal */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Grid responsivo */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        /* Contenido izquierdo */
+        .content {
+            max-width: 560px;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #2e7d32;
+            background: #e8f5e9;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: #0a0a0a;
+        }
+
+        .highlight {
+            color: #2e7d32;
+        }
+
+        .description {
+            font-size: 1.125rem;
+            color: #5a5a5a;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        /* Lista de acciones */
+        .actions {
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+
+        .actions li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: #2c2c2c;
+        }
+
+        .check {
+            width: 24px;
+            height: 24px;
+            background: #e8f5e9;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: #2e7d32;
+            font-weight: 700;
+        }
+
+        .author {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eaeaea;
+            font-size: 0.9rem;
+            color: #8a8a8a;
+        }
+
+        .author strong {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+
+        /* Lado derecho - imagen */
+        .image-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 32px;
+            object-fit: cover;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .image-wrapper img:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Decoración suave detrás de la imagen */
+        .glow {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(46, 125, 50, 0.08), transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+            animation: pulse 6s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(0.95);
+                opacity: 0.5;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+            .container {
+                padding: 2rem 1.25rem;
+                justify-content: flex-start;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .content {
+                max-width: 100%;
+                text-align: center;
+            }
+
+            .tag {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .actions li {
+                justify-content: center;
+            }
+
+            .author {
+                justify-content: center;
+            }
+
+            .image-wrapper {
+                order: -1;
+            }
+
+            .image-wrapper img {
+                max-width: 320px;
+            }
+        }
+
+        /* Tablet */
+        @media (min-width: 901px) and (max-width: 1100px) {
+            .grid {
+                gap: 2rem;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+        }
+
+        /* Efecto de fade-in suave */
+        .content, .image-wrapper {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .image-wrapper {
+            animation-delay: 0.1s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <div class="grid">
+            <!-- Columna izquierda - texto -->
+            <div class="content">
+                <span class="tag">🌱 ACCIÓN CLIMÁTICA</span>
+                <h1>
+                    Un futuro<br>
+                    más <span class="highlight">verde</span><br>
+                    comienza hoy.
+                </h1>
+                <p class="description">
+                    Pequeñas acciones generan grandes cambios. 
+                    Protejamos los recursos naturales para construir 
+                    un planeta sostenible para las próximas generaciones.
+                </p>
+
+                <ul class="actions">
+                    <li><span class="check">✓</span> Reduce, reúsa, recicla</li>
+                    <li><span class="check">✓</span> Ahorra energía y agua</li>
+                    <li><span class="check">✓</span> Planta árboles</li>
+                    <li><span class="check">✓</span> Movilidad sostenible</li>
+                </ul>
+
+                <div class="author">
+                    <span>Presentado por</span>
+                    <strong>Eidan</strong>
+                </div>
+            </div>
+
+            <!-- Columna derecha - imagen -->
+            <div class="image-wrapper">
+                <div class="glow"></div>
+                <img src="MedioAmbiente.png" alt="Medio Ambiente - Cuidemos el planeta">
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
