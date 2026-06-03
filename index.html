@@ -19,79 +19,124 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0d0f0e;
+            background: #050a08;
             color: #e8e8e8;
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
             min-height: 100vh;
-            position: relative;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* === FONDO DINÁMICO CON CSS === */
-        .bg-gradient {
+        /* === FONDO PRINCIPAL === */
+        .bg-primary {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+            background: radial-gradient(ellipse at 30% 40%, #0a1f0f, #020504);
+        }
+
+        /* === FONDO DE ESTRELLAS/BRILLOS === */
+        .stars {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -2;
-            background: radial-gradient(ellipse at 20% 40%, #1a2e1f, #0a0f0b);
+            pointer-events: none;
         }
 
-        /* Partículas flotantes (CSS puro) */
-        .particles {
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 0.8; transform: scale(1); }
+        }
+
+        /* === ONDAS DE FONDO (CSS PURO) === */
+        .waves {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(76,175,80,0.05)" d="M0,192L48,197.3C96,203,192,213,288,208C384,203,480,181,576,176C672,171,768,181,864,197.3C960,213,1056,235,1152,229.3C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') repeat-x;
+            background-size: cover;
+            animation: waveMove 20s linear infinite;
+            opacity: 0.4;
+        }
+
+        .wave2 {
+            animation: waveMove 15s linear infinite reverse;
+            opacity: 0.2;
+            bottom: -20px;
+        }
+
+        @keyframes waveMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100px); }
+        }
+
+        /* === PARTÍCULAS FLOTANTES AVANZADAS === */
+        .particle-system {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
+            pointer-events: none;
             overflow: hidden;
         }
 
-        .particle {
+        .floating-particle {
             position: absolute;
-            background: rgba(76, 175, 80, 0.15);
             border-radius: 50%;
             pointer-events: none;
-            animation: float-particle linear infinite;
+            filter: blur(2px);
+            animation: float-particle-slow linear infinite;
         }
 
-        @keyframes float-particle {
+        @keyframes float-particle-slow {
             0% {
-                transform: translateY(100vh) rotate(0deg);
+                transform: translateY(100vh) translateX(0) rotate(0deg);
                 opacity: 0;
             }
             10% {
-                opacity: 0.6;
+                opacity: 0.7;
             }
             90% {
-                opacity: 0.6;
+                opacity: 0.7;
             }
             100% {
-                transform: translateY(-20vh) rotate(360deg);
+                transform: translateY(-20vh) translateX(30px) rotate(360deg);
                 opacity: 0;
             }
         }
 
-        /* Grid de fondo sutil */
-        .grid-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-image: 
-                linear-gradient(rgba(76, 175, 80, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(76, 175, 80, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-        }
-
-        /* Contenedor principal */
+        /* === CONTENEDOR PRINCIPAL === */
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
             padding: 2rem 2rem;
             min-height: 100vh;
@@ -99,458 +144,608 @@
             flex-direction: column;
             justify-content: center;
             position: relative;
-            z-index: 2;
+            z-index: 10;
         }
 
-        /* Grid responsivo */
+        /* === GRID === */
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 5rem;
             align-items: center;
         }
 
-        /* === ESTILOS DEL CONTENIDO === */
-        .overline {
-            display: inline-block;
-            font-size: 0.7rem;
-            font-weight: 400;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: rgba(200, 240, 180, 0.7);
+        /* === TEXTO MINIMALISTA PERO CON DETALLE === */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(76, 175, 80, 0.08);
+            backdrop-filter: blur(8px);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
             margin-bottom: 2rem;
-            border-left: 2px solid #4caf50;
-            padding-left: 1rem;
+            border: 0.5px solid rgba(76, 175, 80, 0.2);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            font-weight: 400;
+            text-transform: uppercase;
+            color: rgba(150, 230, 120, 0.9);
+        }
+
+        .tag-pulse {
+            width: 6px;
+            height: 6px;
+            background: #6ccf6a;
+            border-radius: 50%;
+            animation: pulse-green 1.5s infinite;
+        }
+
+        @keyframes pulse-green {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 8px #6ccf6a; }
         }
 
         h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 400;
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            font-weight: 350;
             letter-spacing: -0.02em;
-            line-height: 1.2;
+            line-height: 1.15;
             margin-bottom: 1.5rem;
-            color: #ffffff;
+            color: #f0f0f0;
         }
 
-        .accent {
-            color: #6ccf6a;
+        .gradient-word {
+            background: linear-gradient(135deg, #a5e0a0, #4caf50, #2e7d32);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             font-weight: 500;
-            position: relative;
-            display: inline-block;
+            animation: gradient-shift 4s ease infinite;
         }
 
-        .accent::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, #6ccf6a, transparent);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-
-        h1:hover .accent::after {
-            transform: scaleX(1);
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .description {
-            font-size: 0.95rem;
-            color: rgba(220, 220, 220, 0.7);
+            font-size: 0.9rem;
+            color: rgba(210, 210, 210, 0.7);
             margin-bottom: 2rem;
             line-height: 1.7;
             font-weight: 300;
             max-width: 90%;
         }
 
-        /* Línea divisora minimal */
-        .divider {
-            width: 40px;
-            height: 1px;
-            background: rgba(108, 207, 106, 0.4);
+        .stats-row {
+            display: flex;
+            gap: 2.5rem;
             margin: 1.5rem 0;
         }
 
-        /* Acciones minimalistas */
-        .actions {
-            list-style: none;
-            margin-bottom: 2rem;
+        .stat {
+            text-align: left;
         }
 
-        .actions li {
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: #8fdf8d;
+            letter-spacing: -0.02em;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(200,200,200,0.5);
+        }
+
+        .action-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .action-list li {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.7rem;
             font-size: 0.85rem;
             font-weight: 300;
-            color: rgba(230, 230, 230, 0.8);
+            color: rgba(220,220,220,0.8);
             cursor: pointer;
-            transition: all 0.2s ease;
-            letter-spacing: 0.2px;
+            transition: all 0.25s ease;
         }
 
-        .actions li:hover {
+        .action-list li:hover {
+            color: #a5e0a0;
+            transform: translateX(5px);
+        }
+
+        .action-marker {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
             color: #6ccf6a;
-            transform: translateX(4px);
+            transition: all 0.2s;
         }
 
-        .dot {
-            width: 4px;
-            height: 4px;
-            background: #6ccf6a;
-            border-radius: 50%;
-            transition: all 0.2s ease;
-        }
-
-        .actions li:hover .dot {
-            width: 6px;
-            height: 6px;
-            background: #8fdf8d;
-            box-shadow: 0 0 6px rgba(108, 207, 106, 0.5);
-        }
-
-        /* Autor minimal */
-        .author {
+        .author-line {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            font-size: 0.75rem;
-            color: rgba(200, 200, 200, 0.5);
-            letter-spacing: 1px;
-        }
-
-        .author strong {
-            color: #6ccf6a;
-            font-weight: 400;
-            background: rgba(108, 207, 106, 0.08);
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(108,207,106,0.15);
             font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: rgba(200,200,200,0.5);
         }
 
-        /* === IMAGEN QUE RESALTA (EFECTO GLASS + BRILLO) === */
-        .image-frame {
+        .author-line strong {
+            color: #8fdf8d;
+            font-weight: 400;
+            background: rgba(108,207,106,0.08);
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+        }
+
+        /* === IMAGEN PROTAGONISTA - MÁXIMO DESTAQUE === */
+        .hero-image {
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
         }
 
-        /* Efecto de brillo exterior */
-        .glow-ring {
+        /* Capas de brillo */
+        .glow-layer {
             position: absolute;
             width: 100%;
             height: 100%;
-            max-width: 460px;
-            max-height: 460px;
-            border-radius: 28px;
-            background: radial-gradient(circle, rgba(108,207,106,0.2) 0%, rgba(108,207,106,0) 70%);
-            filter: blur(20px);
-            transition: opacity 0.5s ease;
-            opacity: 0.6;
-            z-index: 0;
+            max-width: 520px;
+            max-height: 520px;
+            border-radius: 32px;
+            background: radial-gradient(circle, rgba(108,207,106,0.3) 0%, rgba(108,207,106,0) 70%);
+            filter: blur(35px);
+            transition: all 0.4s ease;
+            z-index: 1;
+            opacity: 0.7;
         }
 
-        .image-wrapper {
-            position: relative;
-            z-index: 2;
-            border-radius: 28px;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            box-shadow: 
-                0 20px 40px -12px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(108, 207, 106, 0.15);
-        }
-
-        .image-wrapper img {
+        /* Anillo externo */
+        .ring-outer {
+            position: absolute;
             width: 100%;
-            max-width: 460px;
+            height: 100%;
+            max-width: 540px;
+            max-height: 540px;
+            border-radius: 40px;
+            background: transparent;
+            border: 1px solid rgba(108,207,106,0.2);
+            z-index: 0;
+            transition: all 0.4s ease;
+        }
+
+        .image-container {
+            position: relative;
+            z-index: 10;
+            border-radius: 32px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            box-shadow: 
+                0 30px 50px -15px rgba(0,0,0,0.5),
+                0 0 0 1px rgba(108,207,106,0.2);
+        }
+
+        .image-container img {
+            width: 100%;
+            max-width: 520px;
             height: auto;
             display: block;
-            border-radius: 28px;
-            transition: transform 0.7s ease, filter 0.5s ease;
-            filter: brightness(1.02) contrast(1.05) saturate(1.1);
-            backdrop-filter: blur(0px);
+            border-radius: 32px;
+            transition: transform 0.6s ease, filter 0.4s ease;
+            filter: brightness(1.05) contrast(1.08) saturate(1.12) drop-shadow(0 5px 15px rgba(0,0,0,0.2));
         }
 
-        /* Hover en imagen: zoom + brillo intenso */
-        .image-frame:hover .glow-ring {
-            opacity: 1;
-            filter: blur(30px);
-            background: radial-gradient(circle, rgba(108,207,106,0.35) 0%, rgba(108,207,106,0) 70%);
-        }
-
-        .image-frame:hover .image-wrapper {
+        /* Efecto 3D al hover */
+        .hero-image:hover .image-container {
+            transform: perspective(1000px) rotateX(3deg) rotateY(3deg);
             box-shadow: 
-                0 25px 50px -12px rgba(0, 0, 0, 0.5),
-                0 0 0 1.5px rgba(108, 207, 106, 0.4);
+                0 35px 60px -15px rgba(0,0,0,0.6),
+                0 0 0 2px rgba(108,207,106,0.4);
         }
 
-        .image-frame:hover .image-wrapper img {
+        .hero-image:hover .glow-layer {
+            opacity: 1;
+            filter: blur(45px);
+            background: radial-gradient(circle, rgba(108,207,106,0.5) 0%, rgba(108,207,106,0) 70%);
             transform: scale(1.02);
-            filter: brightness(1.05) contrast(1.08) saturate(1.15);
         }
 
-        /* Sutil glass overlay */
-        .glass-touch {
+        .hero-image:hover .ring-outer {
+            border-color: rgba(108,207,106,0.5);
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(108,207,106,0.2);
+        }
+
+        .hero-image:hover .image-container img {
+            transform: scale(1.02);
+            filter: brightness(1.1) contrast(1.12) saturate(1.2);
+        }
+
+        /* Overlay de luz que sigue al mouse */
+        .light-follower {
             position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(108,207,106,0.02) 100%);
-            border-radius: 28px;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(108,207,106,0.25), transparent);
+            border-radius: 50%;
             pointer-events: none;
-            z-index: 3;
+            z-index: 20;
+            opacity: 0;
+            transition: opacity 0.2s;
+            filter: blur(15px);
         }
 
-        /* === MICRO-INTERACCIONES JS === */
-        .focus-hint {
+        .hero-image:hover .light-follower {
+            opacity: 1;
+        }
+
+        /* === TOOLTIP MINIMAL === */
+        .image-tooltip {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10,15,10,0.8);
+            backdrop-filter: blur(12px);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            color: #8fdf8d;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 30;
+            border: 0.5px solid rgba(108,207,106,0.3);
+        }
+
+        .hero-image:hover .image-tooltip {
+            opacity: 1;
+        }
+
+        /* === BOTÓN FLOTANTE === */
+        .eco-btn {
             position: fixed;
             bottom: 2rem;
-            left: 2rem;
-            font-size: 0.65rem;
-            color: rgba(200,200,200,0.3);
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
+            right: 2rem;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: rgba(30,40,25,0.8);
+            backdrop-filter: blur(8px);
+            border: 0.5px solid rgba(108,207,106,0.4);
+            color: #8fdf8d;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
             z-index: 100;
-            transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        /* Responsive */
+        .eco-btn:hover {
+            background: #2e7d32;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(76,175,80,0.4);
+            border-color: transparent;
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 900px) {
-            .container {
-                padding: 2rem 1.5rem;
-            }
-            .grid {
-                grid-template-columns: 1fr;
-                gap: 2.5rem;
-            }
-            .content {
-                text-align: center;
-            }
-            .overline {
-                margin-left: auto;
-                margin-right: auto;
-                border-left: none;
-                border-bottom: 2px solid #4caf50;
-                padding-left: 0;
-                padding-bottom: 0.5rem;
-            }
-            .description {
-                max-width: 100%;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .divider {
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .actions li {
-                justify-content: center;
-            }
-            .author {
-                justify-content: center;
-            }
-            .image-frame {
-                order: -1;
-            }
-            .image-wrapper img {
-                max-width: 320px;
-            }
-            .glow-ring {
-                max-width: 320px;
-                max-height: 320px;
-            }
-            .focus-hint {
-                display: none;
-            }
+            .container { padding: 2rem 1.2rem; }
+            .grid { grid-template-columns: 1fr; gap: 2rem; }
+            .content { text-align: center; }
+            .tag { margin-left: auto; margin-right: auto; }
+            .description { max-width: 100%; margin: 0 auto 1.5rem auto; }
+            .stats-row { justify-content: center; }
+            .stat { text-align: center; }
+            .action-list li { justify-content: center; }
+            .author-line { justify-content: center; }
+            .hero-image { order: -1; margin-bottom: 1rem; }
+            .image-container img { max-width: 320px; }
+            .glow-layer, .ring-outer { max-width: 340px; }
         }
 
-        /* Fade-in elegante */
-        .fade-in {
+        /* ANIMACIONES DE ENTRADA */
+        .animate-in {
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s ease forwards;
+            transform: translateY(30px);
+            animation: slideUp 0.7s ease forwards;
         }
 
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .delay-100 { animation-delay: 0.1s; }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-300 { animation-delay: 0.35s; }
-        .delay-400 { animation-delay: 0.5s; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.25s; }
+        .delay-3 { animation-delay: 0.4s; }
+        .delay-4 { animation-delay: 0.55s; }
     </style>
 </head>
 
 <body>
 
-    <!-- Fondo dinámico CSS -->
-    <div class="bg-gradient"></div>
-    <div class="grid-bg"></div>
-    <div class="particles" id="particles"></div>
+    <div class="bg-primary"></div>
+    
+    <!-- Estrellas generadas por JS -->
+    <div class="stars" id="starsContainer"></div>
+    
+    <!-- Ondas de fondo -->
+    <div class="waves">
+        <div class="wave"></div>
+        <div class="wave wave2"></div>
+    </div>
+    
+    <!-- Sistema de partículas avanzado -->
+    <div class="particle-system" id="particleSystem"></div>
 
     <main class="container">
         <div class="grid">
             
-            <!-- Columna izquierda - contenido -->
-            <div class="content fade-in">
-                <div class="overline">EN ARMONÍA</div>
+            <!-- COLUMNA IZQUIERDA -->
+            <div class="content animate-in delay-1">
+                <div class="tag">
+                    <span class="tag-pulse"></span>
+                    <span>SINTONÍA VERDE</span>
+                </div>
                 
                 <h1>
-                    donde <span class="accent">la tierra</span><br>
-                    respira libre
+                    el <span class="gradient-word">planeta</span><br>
+                    late en cada<br>
+                    pequeño gesto
                 </h1>
                 
                 <p class="description">
-                    Lo pequeño es profundo. Reducir, restaurar, respetar. 
-                    No necesitas grandes gestos, solo decisiones conscientes.
+                    No se trata de perfección, sino de dirección. 
+                    Cada elección consciente suma. Cada respiro profundo conecta.
                 </p>
                 
-                <div class="divider"></div>
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-value" id="stat1">+0</div>
+                        <div class="stat-label">Árboles restaurados</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="stat2">0%</div>
+                        <div class="stat-label">conciencia activa</div>
+                    </div>
+                </div>
                 
-                <ul class="actions">
-                    <li><span class="dot"></span> Consume menos, vive más</li>
-                    <li><span class="dot"></span> Protege el agua</li>
-                    <li><span class="dot"></span> Planta futuro</li>
-                    <li><span class="dot"></span> Elige movilidad limpia</li>
+                <ul class="action-list">
+                    <li><span class="action-marker">✦</span> Nutre la tierra</li>
+                    <li><span class="action-marker">✦</span> Honra el agua</li>
+                    <li><span class="action-marker">✦</span> Cultiva silencio</li>
+                    <li><span class="action-marker">✦</span> Elige vida</li>
                 </ul>
                 
-                <div class="author">
-                    <span>✦</span>
-                    <span>Presentado por</span>
+                <div class="author-line">
+                    <span>○</span>
+                    <span>presentado por</span>
                     <strong>Eidan</strong>
                 </div>
             </div>
             
-            <!-- Columna derecha - imagen que resalta -->
-            <div class="image-frame fade-in delay-200">
-                <div class="glow-ring"></div>
-                <div class="image-wrapper">
-                    <img src="MedioAmbiente.png" alt="Medio Ambiente - conexión natural">
-                    <div class="glass-touch"></div>
+            <!-- COLUMNA DERECHA - IMAGEN PROTAGONISTA -->
+            <div class="hero-image animate-in delay-2">
+                <div class="glow-layer"></div>
+                <div class="ring-outer"></div>
+                <div class="image-container">
+                    <img src="MedioAmbiente.png" alt="Medio Ambiente - esencia natural">
                 </div>
+                <div class="light-follower" id="lightFollower"></div>
+                <div class="image-tooltip">🌿 el alma de la tierra</div>
             </div>
             
         </div>
     </main>
 
-    <div class="focus-hint" id="focusHint">
-        ⚡ respira · conecta
-    </div>
+    <button class="eco-btn" id="ecoButton">🌱</button>
 
     <script>
         (function() {
-            // === 1. PARTÍCULAS DINÁMICAS CON JS ===
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 35;
+            // === 1. GENERAR ESTRELLAS DINÁMICAS ===
+            const starsContainer = document.getElementById('starsContainer');
+            for(let i = 0; i < 180; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 5 + 's';
+                star.style.animationDuration = Math.random() * 4 + 2 + 's';
+                starsContainer.appendChild(star);
+            }
+            
+            // === 2. PARTÍCULAS FLOTANTES AVANZADAS ===
+            const particleSys = document.getElementById('particleSystem');
+            const colors = ['rgba(76,175,80,0.12)', 'rgba(108,207,106,0.08)', 'rgba(60,150,70,0.1)'];
             
             function createParticle() {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                const size = Math.random() * 6 + 2;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.opacity = Math.random() * 0.4 + 0.1;
-                particle.style.animationDuration = Math.random() * 12 + 8 + 's';
-                particle.style.animationDelay = Math.random() * 8 + 's';
-                particle.style.background = `rgba(108, 207, 106, ${Math.random() * 0.2 + 0.05})`;
-                particlesContainer.appendChild(particle);
+                const p = document.createElement('div');
+                p.classList.add('floating-particle');
+                const size = Math.random() * 12 + 4;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                p.style.animationDuration = Math.random() * 14 + 10 + 's';
+                p.style.animationDelay = Math.random() * 8 + 's';
+                p.style.filter = `blur(${Math.random() * 3 + 1}px)`;
+                particleSys.appendChild(p);
                 
-                // Remover después de la animación para no acumular
-                particle.addEventListener('animationend', () => {
-                    particle.remove();
-                    createParticle(); // regenerar
+                p.addEventListener('animationend', () => {
+                    p.remove();
+                    createParticle();
                 });
             }
             
-            for(let i = 0; i < particleCount; i++) {
-                setTimeout(() => createParticle(), i * 200);
+            for(let i = 0; i < 45; i++) {
+                setTimeout(() => createParticle(), i * 100);
             }
             
-            // === 2. EFECTO DE BRILLO SEGUIDOR DE MOUSE EN LA IMAGEN ===
-            const imageFrame = document.querySelector('.image-frame');
-            const glowRing = document.querySelector('.glow-ring');
+            // === 3. CONTADORES DINÁMICOS (efecto de números) ===
+            const stat1 = document.getElementById('stat1');
+            const stat2 = document.getElementById('stat2');
+            let animated = false;
             
-            if(imageFrame && glowRing) {
-                imageFrame.addEventListener('mousemove', (e) => {
-                    const rect = imageFrame.getBoundingClientRect();
-                    const x = ((e.clientX - rect.left) / rect.width) * 100;
-                    const y = ((e.clientY - rect.top) / rect.height) * 100;
-                    glowRing.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(108,207,106,0.4) 0%, rgba(108,207,106,0) 70%)`;
-                });
-                
-                imageFrame.addEventListener('mouseleave', () => {
-                    glowRing.style.background = `radial-gradient(circle, rgba(108,207,106,0.2) 0%, rgba(108,207,106,0) 70%)`;
-                });
+            function animateStats() {
+                if(animated) return;
+                animated = true;
+                let target1 = 1240;
+                let target2 = 68;
+                let current1 = 0;
+                let current2 = 0;
+                let step1 = target1 / 60;
+                let step2 = target2 / 60;
+                let interval = setInterval(() => {
+                    current1 += step1;
+                    current2 += step2;
+                    if(current1 >= target1) {
+                        current1 = target1;
+                        current2 = target2;
+                        clearInterval(interval);
+                    }
+                    stat1.innerText = '+' + Math.floor(current1);
+                    stat2.innerText = Math.floor(current2) + '%';
+                }, 25);
             }
             
-            // === 3. INTERACCIÓN CON LAS ACCIONES (efecto sutil de mensaje) ===
-            const actionItems = document.querySelectorAll('.actions li');
-            const messages = [
-                '🌱 Reduce tu huella',
-                '💧 Cada gota cuenta',
-                '🌳 Un árbol cambia todo',
-                '🚲 Elige verde'
-            ];
-            
-            actionItems.forEach((item, index) => {
-                item.addEventListener('click', () => {
-                    const msg = messages[index % messages.length];
-                    const hint = document.getElementById('focusHint');
-                    const originalText = hint.innerText;
-                    hint.style.opacity = '1';
-                    hint.style.color = 'rgba(108, 207, 106, 0.8)';
-                    hint.innerText = `✦ ${msg} ✦`;
-                    setTimeout(() => {
-                        hint.style.color = 'rgba(200,200,200,0.3)';
-                        hint.innerText = originalText;
-                    }, 1500);
-                });
-            });
-            
-            // === 4. EFECTO DE APARICIÓN SUTIL CON SCROLL ===
-            const observer = new IntersectionObserver((entries) => {
+            // Observer para estadísticas
+            const statsObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if(entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
+                        animateStats();
+                        statsObserver.disconnect();
                     }
                 });
-            }, { threshold: 0.2 });
+            }, { threshold: 0.3 });
+            statsObserver.observe(document.querySelector('.stats-row'));
             
-            document.querySelectorAll('.fade-in').forEach(el => {
-                observer.observe(el);
+            // === 4. LUZ SIGUIENTE DEL MOUSE EN LA IMAGEN ===
+            const heroImage = document.querySelector('.hero-image');
+            const lightFollower = document.getElementById('lightFollower');
+            
+            heroImage.addEventListener('mousemove', (e) => {
+                const rect = heroImage.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                lightFollower.style.left = x - 75 + 'px';
+                lightFollower.style.top = y - 75 + 'px';
             });
             
-            // === 5. RELOJ BIÓFILO: mensaje dinámico cada 20s ===
-            let messagesCycle = [
-                "🍃 respira profundo",
-                "🌿 cuida lo que amas",
-                "💚 pequeño gesto, gran cambio",
-                "🌎 la naturaleza te espera"
+            heroImage.addEventListener('mouseleave', () => {
+                lightFollower.style.left = '50%';
+                lightFollower.style.top = '50%';
+            });
+            
+            // === 5. INTERACCIÓN CON ELEMENTOS DE LISTA (mensajes + efecto sonoro visual) ===
+            const actions = document.querySelectorAll('.action-list li');
+            const ecoBtn = document.getElementById('ecoButton');
+            const messages = [
+                '🌱 la tierra respira contigo',
+                '💧 cada gota es un mantra',
+                '🍃 honra tu entorno',
+                '🌳 planta un árbol, siembra calma'
             ];
-            let idx = 0;
-            setInterval(() => {
-                const hint = document.getElementById('focusHint');
-                if(hint && hint.innerText.includes('respira')) {
-                    hint.style.opacity = '0.7';
-                    hint.innerText = `✦ ${messagesCycle[idx % messagesCycle.length]} ✦`;
-                    setTimeout(() => {
-                        if(hint.innerText.includes(messagesCycle[idx % messagesCycle.length])) {
-                            hint.innerText = '⚡ respira · conecta';
-                            hint.style.opacity = '0.5';
-                        }
-                    }, 2800);
-                    idx++;
+            
+            actions.forEach((item, idx) => {
+                item.addEventListener('click', () => {
+                    const msg = messages[idx % messages.length];
+                    showFloatingMessage(msg, item);
+                });
+            });
+            
+            function showFloatingMessage(msg, element) {
+                const rect = element.getBoundingClientRect();
+                const floatingMsg = document.createElement('div');
+                floatingMsg.innerText = msg;
+                floatingMsg.style.position = 'fixed';
+                floatingMsg.style.left = rect.left + 'px';
+                floatingMsg.style.top = rect.top - 30 + 'px';
+                floatingMsg.style.background = 'rgba(10,20,10,0.85)';
+                floatingMsg.style.backdropFilter = 'blur(12px)';
+                floatingMsg.style.padding = '0.3rem 1rem';
+                floatingMsg.style.borderRadius = '40px';
+                floatingMsg.style.fontSize = '0.7rem';
+                floatingMsg.style.color = '#a5e0a0';
+                floatingMsg.style.border = '0.5px solid rgba(108,207,106,0.4)';
+                floatingMsg.style.zIndex = '200';
+                floatingMsg.style.pointerEvents = 'none';
+                floatingMsg.style.whiteSpace = 'nowrap';
+                floatingMsg.style.fontFamily = 'Inter, sans-serif';
+                document.body.appendChild(floatingMsg);
+                
+                setTimeout(() => {
+                    floatingMsg.style.opacity = '0';
+                    floatingMsg.style.transform = 'translateY(-20px)';
+                    floatingMsg.style.transition = 'all 0.4s ease';
+                    setTimeout(() => floatingMsg.remove(), 500);
+                }, 1500);
+            }
+            
+            // === 6. BOTÓN FLOTANTE CON MENSAJE SORPRESA ===
+            ecoBtn.addEventListener('click', () => {
+                const surprise = ['🌿 respira profundo', '🍃 conecta con la tierra', '💚 pequeño gesto, gran huella', '🌎 el planeta te necesita'];
+                const randomSurprise = surprise[Math.floor(Math.random() * surprise.length)];
+                showFloatingMessage(randomSurprise, ecoBtn);
+                
+                // Efecto ripple en botón
+                ecoBtn.style.transform = 'scale(0.95)';
+                setTimeout(() => { ecoBtn.style.transform = 'scale(1.1)'; }, 100);
+                setTimeout(() => { ecoBtn.style.transform = 'scale(1)'; }, 200);
+            });
+            
+            // === 7. EFECTO DE PARALAXIS SUTIL EN LA IMAGEN ===
+            document.addEventListener('mousemove', (e) => {
+                const imgContainer = document.querySelector('.image-container');
+                if(!imgContainer) return;
+                const mouseX = (e.clientX / window.innerWidth - 0.5) * 8;
+                const mouseY = (e.clientY / window.innerHeight - 0.5) * 8;
+                imgContainer.style.transform = `perspective(800px) rotateY(${mouseX * 0.5}deg) rotateX(${-mouseY * 0.3}deg)`;
+                
+                const glow = document.querySelector('.glow-layer');
+                if(glow) {
+                    const glowX = (e.clientX / window.innerWidth) * 100;
+                    const glowY = (e.clientY / window.innerHeight) * 100;
+                    glow.style.background = `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(108,207,106,0.35) 0%, rgba(108,207,106,0) 70%)`;
                 }
-            }, 18000);
+            });
+            
+            // Reset imagen al salir del contenedor
+            const heroContainer = document.querySelector('.hero-image');
+            heroContainer.addEventListener('mouseleave', () => {
+                const imgContainer = document.querySelector('.image-container');
+                imgContainer.style.transform = '';
+                const glow = document.querySelector('.glow-layer');
+                if(glow) {
+                    glow.style.background = `radial-gradient(circle, rgba(108,207,106,0.3) 0%, rgba(108,207,106,0) 70%)`;
+                }
+            });
             
         })();
     </script>
